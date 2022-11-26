@@ -29,28 +29,35 @@ public class CardDeck {
         for (String pattern : PATTERNS) {
             for (int i = 1; i <= CARD_COUNT; i++) {
                 Card card = new Card();
-                String denomination;
-
-                if (i == 1) {
-                    denomination = "A";
-                } else if (i == 11) {
-                    denomination = "J";
-                } else if (i == 12) {
-                    denomination = "Q";
-                } else if (i == 13) {
-                    denomination = "K";
-                } else {
-                    denomination = String.valueOf(i);
-                }
-
+                String denomination = this.numberToDenomination(i);
                 card.setDenomination(denomination); // 카드의 숫자(영어)
                 card.setPattern(pattern); // 카드의 모양(스페이드, 하트, 다이아몬드, 클로버)
                 this.cards.add(card);
-
             }
         }
 
 
+    }
+
+    /**
+     * 생성자에서는 52개의 카드를 생성하는데 그 목적만 가지고 있다.
+     * 숫자 1~13을 통해 끗자리 문양을 결정하는 책임을 분리하자.
+     * 하나의 메서드(행동)는 하나의 책임만 가지도록 하자
+     *
+     * 해당 행동은 1~13을 통해 끗자리 문양을 결정하는 행동을 수행한다.
+     */
+    private String numberToDenomination (int number) {
+        if (number == 1) {
+            return "A";
+        } else if (number == 11) {
+            return "J";
+        } else if (number == 12) {
+            return "Q";
+        } else if (number == 13) {
+            return "K";
+        } else {
+            return String.valueOf(number);
+        }
     }
 
 

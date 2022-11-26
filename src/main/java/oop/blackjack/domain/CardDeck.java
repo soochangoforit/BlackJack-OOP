@@ -71,9 +71,17 @@ public class CardDeck {
 
     /**
      * 카드 뭉치에서 1개를 꺼내서 반환한다.
+     *
+     * draw()는 2가지 책임을 갖고 있다.
+     * 1. 남아 있는 카드 중 1개를 뽑는다.
+     * 2. 뽑은 카드는 카드덱에서 제거한다.
      */
-    public Card getCard() {
-        return null;
+    public Card draw() {
+        int size = cards.size();
+        int select = (int) (Math.random() * size);
+        Card selectedCard = cards.get(select);
+        cards.remove(select);
+        return selectedCard;
     }
 
     @Override

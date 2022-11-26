@@ -1,6 +1,7 @@
 package oop.blackjack.domain;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -54,9 +55,11 @@ public class CardDeck {
      * 생성자를 단지 생성하는 역할만 필요할 뿐, 구체적인 로직에 대해서는 알 필요가 없다.
      *
      * 이렇게 분리하고 나면, 각 메서드는 하나의 역할에만 충실할 수 있게 되었다.
+     *
+     * 수정) 삭제되는 성능을 고려해서 ArrayList -> LinkedList로 변경
      */
     private List<Card> generateCards() {
-        List<Card> cards = new ArrayList<>();
+        List<Card> cards = new LinkedList<>();
         for (String pattern : PATTERNS) {
             for (int i = 1; i <= CARD_COUNT; i++) {
                 String denomination = this.numberToDenomination(i);

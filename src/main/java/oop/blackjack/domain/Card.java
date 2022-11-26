@@ -21,11 +21,11 @@ public class Card {
         return denomination;
     }
 
-    private void setPattern(String pattern) {
+    public void setPattern(String pattern) {
         this.pattern = pattern;
     }
 
-    private void setDenomination(String denomination) {
+    public void setDenomination(String denomination) {
         this.denomination = denomination;
     }
 

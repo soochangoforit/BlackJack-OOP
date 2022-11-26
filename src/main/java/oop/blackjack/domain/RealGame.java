@@ -22,5 +22,10 @@ public class RealGame {
 
         // 규칙 생성
         Rule rule = new Rule();
+
+        // 첫번째 카드를 뽑기 위해
+        Card card = cardDeck.getCard();
+
+
     }
 }

@@ -59,9 +59,9 @@ public class CardDeck {
         List<Card> cards = new ArrayList<>();
         for (String pattern : PATTERNS) {
             for (int i = 1; i <= CARD_COUNT; i++) {
-                Card card = new Card();
-                card.setPattern(pattern);
-                card.setDenomination(numberToDenomination(i));
+                String denomination = this.numberToDenomination(i);
+                Card card = new Card(pattern, denomination);
+
                 cards.add(card);
             }
         }
@@ -74,6 +74,18 @@ public class CardDeck {
      */
     public Card getCard() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for(Card card : cards){
+            sb.append(card.toString());
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
 }

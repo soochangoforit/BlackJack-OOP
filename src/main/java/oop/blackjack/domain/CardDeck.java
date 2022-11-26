@@ -78,13 +78,27 @@ public class CardDeck {
      * draw()는 2가지 책임을 갖고 있다.
      * 1. 남아 있는 카드 중 1개를 뽑는다.
      * 2. 뽑은 카드는 카드덱에서 제거한다.
+     *
+     * 수정) 남아 있는 카드 1개를 뽑고, 카드 덱에서 제거하는 책임 2가리를 하나의 메서드 안에서 수행 -> 분리
+     *      따라서, draw()는 카드를 뽑는 책임만 갖게 된다.
      */
     public Card draw() {
+        Card selectedCard = this.getRandCard();
+        cards.remove(selectedCard);
+        return selectedCard;
+    }
+
+    /**
+     * draw()에서 카드를 뽑아내는, 책임을 분리한다.
+     * 하나의 메서드는 하나의 책임만 가져야 한다.
+     *
+     * private 접근 제어자를 둠으로써, 타인이 코드만 보고도, 해당 변수/메소드는 현재 클래스에서만
+     * 사용된다는 것을 명시 하는것이 더 좋다.
+     */
+    private Card getRandCard() {
         int size = cards.size();
         int select = (int) (Math.random() * size);
-        Card selectedCard = cards.get(select);
-        cards.remove(select);
-        return selectedCard;
+        return cards.get(select);
     }
 
     @Override

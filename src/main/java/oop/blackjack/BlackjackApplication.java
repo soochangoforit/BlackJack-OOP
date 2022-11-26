@@ -1,5 +1,6 @@
 package oop.blackjack;
 
+import oop.blackjack.domain.RealGame;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

@@ -24,8 +24,9 @@ public class RealGame {
         Rule rule = new Rule();
 
         // 첫번째 카드를 뽑기 위해
-        Card card = cardDeck.getCard();
+        //Card card = cardDeck.getCard();
 
+        System.out.println(cardDeck.toString());
 
     }
 }

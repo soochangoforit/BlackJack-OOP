@@ -23,20 +23,7 @@ public class CardDeck {
      * 생성자를 통해서 초기화 해준다.
      */
     public CardDeck() {
-
-        this.cards = new ArrayList<Card>();
-
-        for (String pattern : PATTERNS) {
-            for (int i = 1; i <= CARD_COUNT; i++) {
-                Card card = new Card();
-                String denomination = this.numberToDenomination(i);
-                card.setDenomination(denomination); // 카드의 숫자(영어)
-                card.setPattern(pattern); // 카드의 모양(스페이드, 하트, 다이아몬드, 클로버)
-                this.cards.add(card);
-            }
-        }
-
-
+        cards = this.generateCards();
     }
 
     /**
@@ -58,6 +45,27 @@ public class CardDeck {
         } else {
             return String.valueOf(number);
         }
+    }
+
+    /**
+     * 생성자가 실행을 시킬 역할이 있을 뿐이지 실제 비지니스 로직을 알고 있어야 할 피료는 없다.
+     *
+     * 그렇기에 생성자에서 해당 코드를 분리한다.
+     * 생성자를 단지 생성하는 역할만 필요할 뿐, 구체적인 로직에 대해서는 알 필요가 없다.
+     *
+     * 이렇게 분리하고 나면, 각 메서드는 하나의 역할에만 충실할 수 있게 되었다.
+     */
+    private List<Card> generateCards() {
+        List<Card> cards = new ArrayList<>();
+        for (String pattern : PATTERNS) {
+            for (int i = 1; i <= CARD_COUNT; i++) {
+                Card card = new Card();
+                card.setPattern(pattern);
+                card.setDenomination(numberToDenomination(i));
+                cards.add(card);
+            }
+        }
+        return cards;
     }
 
 

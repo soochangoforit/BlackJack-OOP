@@ -63,12 +63,32 @@ public class CardDeck {
         for (String pattern : PATTERNS) {
             for (int i = 1; i <= CARD_COUNT; i++) {
                 String denomination = this.numberToDenomination(i);
-                Card card = new Card(pattern, denomination);
+                int point = this.numberToPoint(denomination);
+                Card card = new Card(pattern, denomination, point);
 
                 cards.add(card);
             }
         }
         return cards;
+    }
+
+    /**
+     * Dealer는 자신이 가진 카드 점수가 16점 이하면 한장 더 뽑고, 17점 이상이면 더 이상 뽑지 않는다.
+     * 이를 위해서는 Dealer가 가진 카드 점수를 계산할 수 있어야 한다.
+     *
+     * Dealer가 카드를 받을때 마다, 직접 계산해도 되지만, 중복적인 작업을 피하기 위해서
+     * CardDeck에서 Card를 생성할때, Point도 함께 생성하도록 한다.
+     *
+     * CardDeck에서 Card를 생성할때 Point를 함께 생성하는 책임을 가진다.
+     */
+    private int numberToPoint(String denomination) {
+        if (denomination.equals("A")) {
+            return 1;
+        } else if (denomination.equals("J") || denomination.equals("Q") || denomination.equals("K")) {
+            return 10;
+        } else {
+            return Integer.parseInt(denomination);
+        }
     }
 
 

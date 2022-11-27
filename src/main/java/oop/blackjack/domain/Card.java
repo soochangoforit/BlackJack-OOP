@@ -7,6 +7,7 @@ public class Card {
 
     private String pattern; // 스페이드, 하트, 다이아몬드, 클로버
     private String denomination; // A, 2~10, K,Q,J
+    private int point;
 
     /**
      * setter를 통해 객체를 초기화 하는 방향보다는 생성자를 통해서 초기화 하는 방향이 더 좋다.
@@ -19,9 +20,10 @@ public class Card {
      *    - Card에 기본 생성자가 있으면 끗수와 무늬가 없는 Card가 생성 될 수 있다.
      *    - 하지만 이렇게 생성자를 통해서 객체를 생성하도록 하면, 끗수와 무늬가 없는 Card는 생성 할 수 없다.
      */
-    public Card(String pattern, String denomination) {
+    public Card(String pattern, String denomination, int point) {
         this.pattern = pattern;
         this.denomination = denomination;
+        this.point = point;
     }
 
 

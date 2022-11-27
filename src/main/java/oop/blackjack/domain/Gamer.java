@@ -10,7 +10,7 @@ import java.util.List;
  * 2. 봅은 카드를 소유한다.
  * 3. 카드를 오픈한다.
  */
-public class Gamer {
+public class Gamer implements Player {
 
     private List<Card> cards;
 
@@ -34,7 +34,8 @@ public class Gamer {
     * 카드 모두를 오픈한다.
      * 현재 갖고 있는 모든 카드들을 전달하는 역할
     */
-    private List<Card> openAllCards() {
+    @Override
+    public List<Card> openCards() {
         return this.cards;
     }
 
@@ -42,7 +43,7 @@ public class Gamer {
      * Gamer의 경우, 사용자가 현재 카드들 총 Point를 보며 카드를 더 뽑을지 말지 결정하게 된다.
      * 이를 위해서는 Gamer는 현재 카드들의 숫자의 합을 확인할 수 있어야 한다.
      */
-    private void showCards() {
+    public void showCards() {
         StringBuilder sb = new StringBuilder();
         sb.append("게이머 현재 보유 카드 목록 \n");
 

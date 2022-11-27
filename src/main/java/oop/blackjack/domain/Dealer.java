@@ -14,7 +14,7 @@ import java.util.List;
  *
  * 이렇게 될 수 있었던 이유는 게임의 승패를 판단하는 것은 Rule 객체가, 카드를 뽑는 것은 카드덱 객체가 맡았기 때문이다.
  */
-public class Dealer {
+public class Dealer implements Player {
 
     private List<Card> cards; // 딜러가 가지고 있는 카드 목록 (카드를 소유한다)
 
@@ -69,7 +69,8 @@ public class Dealer {
     /**
      * 카드를 모두 오픈한다.
      */
-    private List<Card> openAllCards() {
+    @Override
+    public List<Card> openCards() {
         return this.cards;
     }
 

@@ -31,7 +31,8 @@ public class RealGame {
         // 규칙 생성
         Rule rule = new Rule();
 
-        playingPhase(sc, cardDeck, gamer);
+        this.initPhase(cardDeck, gamer);
+        this.playingPhase(sc, cardDeck, gamer);
 
 
     }

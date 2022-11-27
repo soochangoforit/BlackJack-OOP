@@ -8,6 +8,11 @@ import java.util.Scanner;
 public class RealGame {
 
     /**
+     * 초기에 Dealer와 Gamer 모두 2장의 카드를 받는다.
+     */
+    private final int INITIAL_CARD_COUNT = 2;
+
+    /**
     * 블랙잭 게임을 시작한다.
     */
     public void play(){
@@ -58,6 +63,35 @@ public class RealGame {
                 break;
             }
 
+            Card card = cardDeck.draw();
+            gamer.receiveCard(card);
+        }
+    }
+
+    /**
+     * 블랙잭 규칙에 따라 처음 시작시 Dealer와 Gamer가 2장씩 카드를 받는 역할을 담당할 예정이다.
+     * Dealer 같은 경우는 추후에 추가할 예정.
+     *
+     * 여기서 눈여겨 보셔야할 것은 for문의 반복횟수인 2회를 static 상수로 선언한 것입니다.
+     * i<2로 작성해도 똑같은 기능이 작동될 것입니다. 그럼에도 이렇게 상수로 선언한 이유는 매직넘버를 피하기 위함입니다.
+     *
+     * 매직넘버란, 코드를 작성할 때, 그 의미를 알 수 없는 숫자를 사용하는 것을 말합니다.
+     * 여기서는 처음 시작시 카드를 받는 횟수인 2를 변수나 상수에 담지 않고, 코드에서 그래도 사용하게 되면 매직넘버가 된다.
+     *
+     * 매직 넘버를 피해야 하는 이유는
+     * 1. 의미가 모호하다.
+     *    - 단순히 2라는 숫자만 있으면 어떤 의미인지 알 수가 없다. 이로 인해 다른 개발자는 전체 맥락과 코드를
+     *      읽어야 하는 상황이 발생한다.
+     *    - 상수 혹은 변수명으로 의도를 명확히 하는 것이 좋다.
+     * 2. 변경 범위를 확인하기 어렵다.
+     *    - 똑같이 2를 사용하는 A라는 메서드가 하나 더 있다고 생각해보자
+     *    - 초반 카드 뽑기 횟수가 2->3으로 늘어날 경우 A메소드의 2도 3으로 변경해야 할까? 변경하는 것은 확실한가?
+     *    - 특히나, 0,1,10 등 빈번하게 사용되는 숫자를 전부 매직넘버로 처리할 경우 히스토리를 알지 못하면 변겨이 치명
+     *      적인 버그를 발생시킬 수 있다.
+     */
+    private void initPhase(CardDeck cardDeck, Gamer gamer) {
+        System.out.println("처음 2장의 카드를 각자 뽑겠습니다.");
+        for(int i = 0; i < INITIAL_CARD_COUNT; i++) {
             Card card = cardDeck.draw();
             gamer.receiveCard(card);
         }

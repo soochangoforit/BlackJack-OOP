@@ -1,7 +1,7 @@
 package oop.blackjack.domain;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collections;
+import java.util.Stack;
 
 /**
  * 카드(Card) 뭉치
@@ -12,16 +12,25 @@ import java.util.List;
  */
 public class CardDeck {
 
-    private List<Card> cards;
+    /**
+     * get+remove를 사용하는것보다는 pop을 사용하는 것이 의미상 더 적절한 뜻이 되기도하고 코드가 더 깔끔해지기 때문에
+     * List를 Stack으로 변경하겠습니다.
+     */
+    private Stack<Card> cards;
     private static final int CARD_COUNT = 13; // A, 2~10, J, Q, K
 
 
     /**
      * CardDeck을 생성하는 시점에는 52장의 카드들을 가지고 있어야 함으로
      * 생성자를 통해서 초기화 해준다.
+     *
+     * 수정) 뽑는다는 의미가 더 잘 전달되기 위해서 Stack으로 변경
+     * 수정) 카드를 뽑을때마다, 랜덤한 함수를 돌리는 것 보단, 처음에 랜덤하게 섞어놓고 뽑는 것이 더 효율적이기 때문에
+     *      shuffle을 통해 랜덤하게 섞어준다.
      */
     public CardDeck() {
         cards = this.generateCards();
+        Collections.shuffle(this.cards);
     }
 
     /**
@@ -34,9 +43,10 @@ public class CardDeck {
      *
      * 수정) 삭제되는 성능을 고려해서 ArrayList -> LinkedList로 변경
      * 수정) 끗수와 점수에 대해서는 Enum을 통해서 그 범위를 제한하게 하여, 더욱 안전하게 만들었다. 간결해졌다.
+     * 수정) 카드를 생성시 , 뽑는다는 의미가 더 적절한 뜻이 되기도 해서 Stack으로 변경
      */
-    private List<Card> generateCards() {
-        List<Card> cards = new LinkedList<>();
+    private Stack<Card> generateCards() {
+        Stack<Card> cards = new Stack<>();
         for (Card.Pattern pattern : Card.Pattern.values()) {
             for (Card.Denomination denomination : Card.Denomination.values()) {
                 cards.add(new Card(pattern, denomination));
@@ -57,22 +67,7 @@ public class CardDeck {
      *      따라서, draw()는 카드를 뽑는 책임만 갖게 된다.
      */
     public Card draw() {
-        Card selectedCard = this.getRandCard();
-        cards.remove(selectedCard);
-        return selectedCard;
-    }
-
-    /**
-     * draw()에서 카드를 뽑아내는, 책임을 분리한다.
-     * 하나의 메서드는 하나의 책임만 가져야 한다.
-     *
-     * private 접근 제어자를 둠으로써, 타인이 코드만 보고도, 해당 변수/메소드는 현재 클래스에서만
-     * 사용된다는 것을 명시 하는것이 더 좋다.
-     */
-    private Card getRandCard() {
-        int size = cards.size();
-        int select = (int) (Math.random() * size);
-        return cards.get(select);
+        return this.cards.pop();
     }
 
     @Override
@@ -87,7 +82,7 @@ public class CardDeck {
         return sb.toString();
     }
 
-    public List<Card> getCards(){
+    public Stack<Card> getCards(){
         return this.cards;
     }
 

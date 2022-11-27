@@ -66,42 +66,7 @@ public class Card {
     }
 
 
-    /**
-     * 원래 해당 메서드(행동, 끗수를 보고 Point 점수 반영)은 CardDeck에서 처리를 했다.
-     * 하지만 CardDeck은 단지 서로 다른 52장의 카드를 생성하는 책임만 갖고 있다.
-     *
-     * 실제 Card 끗수에 대한 Point를 지정할 책임은 없다. "정보 전문가 패턴"을 고려해서 Card의 끗수를 보고
-     * 점수를 부여하는데 그 정보를 가장 잘 알고 있는 Card에게 그 책임을 부여하자.
-     */
-    private int numberToPoint(String denomination) {
-        if (denomination.equals("A")) {
-            return 1;
-        } else if (denomination.equals("J") || denomination.equals("Q") || denomination.equals("K")) {
-            return 10;
-        } else {
-            return Integer.parseInt(denomination);
-        }
-    }
 
-    /**
-     * 원래 해당 행동(숫자를 보고 끗수를 결정)은 CardDeck에서 처리를 했다.
-     * 하지만 CardDeck은 단지 서로 다른 52장의 카드를 생성하는 책임만 갖고 있다.
-     *
-     * "정보 전문가 패턴"을 고려해서, Card의 끗수를 결정하는데 그 정보를 가장 잘 알고 있는 Card에게 그 책임을 부여하자.
-     */
-    private String numberToDenomination (int number) {
-        if (number == 1) {
-            return "A";
-        } else if (number == 11) {
-            return "J";
-        } else if (number == 12) {
-            return "Q";
-        } else if (number == 13) {
-            return "K";
-        } else {
-            return String.valueOf(number);
-        }
-    }
 
     /**
      * Pattern enum의 경우 Card외에는 사용되는 곳이 없기에 inner type으로 (즉, Card 내부에 선언) 하였습니다

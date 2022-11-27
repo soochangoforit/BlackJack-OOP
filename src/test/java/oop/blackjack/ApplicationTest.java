@@ -23,14 +23,11 @@ class ApplicationTest {
     }
 
     @Test
-    public void test_카드패턴비교() {
-        assertThat(cards.get(0).getPattern()).isEqualTo(Card.Pattern.SPADE);
-        assertThat(cards.get(13).getPattern()).isEqualTo(Card.Pattern.HEART);
-    }
-
-    @Test
-    public void test_카드끗수비교() {
-        assertThat(cards.get(0).getDenomination()).isEqualTo(Card.Denomination.ACE);
-        assertThat(cards.get(12).getDenomination()).isEqualTo(Card.Denomination.KING);
+    public void test_List를Stack으로변환() {
+        assertThat(cardDeck.getCards().size()).isEqualTo(52);
+        cardDeck.draw();
+        assertThat(cardDeck.getCards().size()).isEqualTo(51);
+        cardDeck.draw();
+        assertThat(cardDeck.getCards().size()).isEqualTo(50);
     }
 }

@@ -1,6 +1,5 @@
 package oop.blackjack.domain;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,27 +27,6 @@ public class CardDeck {
     }
 
     /**
-     * 생성자에서는 52개의 카드를 생성하는데 그 목적만 가지고 있다.
-     * 숫자 1~13을 통해 끗자리 문양을 결정하는 책임을 분리하자.
-     * 하나의 메서드(행동)는 하나의 책임만 가지도록 하자
-     *
-     * 해당 행동은 1~13을 통해 끗자리 문양을 결정하는 행동을 수행한다.
-     */
-    private String numberToDenomination (int number) {
-        if (number == 1) {
-            return "A";
-        } else if (number == 11) {
-            return "J";
-        } else if (number == 12) {
-            return "Q";
-        } else if (number == 13) {
-            return "K";
-        } else {
-            return String.valueOf(number);
-        }
-    }
-
-    /**
      * 생성자가 실행을 시킬 역할이 있을 뿐이지 실제 비지니스 로직을 알고 있어야 할 피료는 없다.
      *
      * 그렇기에 생성자에서 해당 코드를 분리한다.
@@ -62,33 +40,11 @@ public class CardDeck {
         List<Card> cards = new LinkedList<>();
         for (String pattern : PATTERNS) {
             for (int i = 1; i <= CARD_COUNT; i++) {
-                String denomination = this.numberToDenomination(i);
-                int point = this.numberToPoint(denomination);
-                Card card = new Card(pattern, denomination, point);
-
+                Card card = new Card(pattern, i);
                 cards.add(card);
             }
         }
         return cards;
-    }
-
-    /**
-     * Dealer는 자신이 가진 카드 점수가 16점 이하면 한장 더 뽑고, 17점 이상이면 더 이상 뽑지 않는다.
-     * 이를 위해서는 Dealer가 가진 카드 점수를 계산할 수 있어야 한다.
-     *
-     * Dealer가 카드를 받을때 마다, 직접 계산해도 되지만, 중복적인 작업을 피하기 위해서
-     * CardDeck에서 Card를 생성할때, Point도 함께 생성하도록 한다.
-     *
-     * CardDeck에서 Card를 생성할때 Point를 함께 생성하는 책임을 가진다.
-     */
-    private int numberToPoint(String denomination) {
-        if (denomination.equals("A")) {
-            return 1;
-        } else if (denomination.equals("J") || denomination.equals("Q") || denomination.equals("K")) {
-            return 10;
-        } else {
-            return Integer.parseInt(denomination);
-        }
     }
 
 

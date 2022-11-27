@@ -1,5 +1,7 @@
 package oop.blackjack.domain;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -11,6 +13,7 @@ public class RealGame {
      * 초기에 Dealer와 Gamer 모두 2장의 카드를 받는다.
      */
     private final int INITIAL_CARD_COUNT = 2;
+    private static final String STOP_RECEIVE_CARD = "0";
 
     /**
     * 블랙잭 게임을 시작한다.
@@ -31,59 +34,59 @@ public class RealGame {
         // 규칙 생성
         Rule rule = new Rule();
 
-        this.initPhase(cardDeck, gamer, dealer);
-        this.playingPhase(sc, cardDeck, gamer, dealer);
+        List<Player> players = Arrays.asList(gamer, dealer);
+
+        this.initPhase(cardDeck, players);
+        this.playingPhase(sc, cardDeck, players);
 
 
     }
 
+
     /**
-     * 카드 뽑는 단계를 분리하였다.
-     * - CardDeck을 통해 카드를 뽑고,
-     * - Gamer가 그 카드를 받고,
-     * - Gamer의 현재 카드를 확인
-     *
-     * 여기서 중요한 점은 Gamer는 CardDeck이 어떤 과정을 거쳐서 카드를 뽑아주는지 모른다는 것이다.
-     * CardDeck 내부에서 (1) 남아 있는 카드 중 하나를 랜덤으로 뽑고, (2) 뽑은 카드는 목록에서 제거 라는 과정을
-     * Gamer가 알 필요는 없다는 것이다.
-     * Gamer는 단지 CardDeck에게 카드 하나를 뽑아 달라는 요청만 하면 되는 것이다.
-     *
-     * 객체는 다른 객체에게 요청을 할때, 이렇게 한뒤에 저렇게 하고 마지막으로 어떻게 해달라 라는 식으로 세세하게 요청해서는 안된다.
-     * 객체는 본인의 역할에 충실하면 된다.
-     * CardDeck은 카드를 뽑아 주는 것에, Gamer는 CardDeck에게 카드를 받는 것에 충실해야 한다.
-     * 만일 각 객체의 책임이 모호하게 구현이 되어 있다면, 차후 변경이 있을 경우 어디까지 수정을 해야하는지 알 수 없는 상황이
-     * 올 수도 있다. 그러므로 다른 객체에게 요청을 하는 일은 최대한 해당 객체를 믿고 맡기는 것이 좋다.
+     * Dealer와 Gamer 모두 자유롭게 카드를 받는다.
+     * Dealer와 Gamer, 번갈아 가면서 카드를 받는다.
+     * 2명이 모두 카드를 다 받았다고 판단되면 종료하는 책임을 담당한다.
      */
-    private void playingPhase(Scanner sc, CardDeck cardDeck, Gamer gamer, Dealer dealer) {
-        String gamerInput, dealerInput;
-        boolean isGamerTurn = false,
-                isDealerTurn = false;
-
+    private void playingPhase(Scanner sc, CardDeck cardDeck, List<Player> players) {
         while(true) {
-            System.out.println("게이머님 카드를 뽑겠습니까?? 종료를 원하시면 0을 입력하세요");
-            gamerInput = sc.nextLine();
+            boolean isAllPlayerTurnOff = receiveCardAllPlayers(sc, cardDeck, players);
 
-            if(gamerInput.equals("0")) {
-                isGamerTurn = true;
-            }else{
-                Card card = cardDeck.draw();
-                gamer.receiveCard(card);
-            }
-
-            System.out.println("딜러님 카드를 뽑겠습니까?? 종료를 원하시면 0을 입력하세요");
-            dealerInput = sc.nextLine();
-
-            if(dealerInput.equals("0")) {
-                isDealerTurn = true;
-            }else{
-                Card card = cardDeck.draw();
-                dealer.receiveCard(card);
-            }
-
-            if(isGamerTurn && isDealerTurn) {
+            if(isAllPlayerTurnOff) {
                 break;
             }
         }
+    }
+
+    /**
+     * 매 턴마다, Dealer와 Gamer 모두 카드를 받을지 말지를 알여주는 책임을 담당한다.
+     *
+     * 문제점은 receiveCardAllPlayers 메서드가 2가지 일을 하고 있다는 것이다.
+     * 1. Dealer와 Gamer 모두 카드를 받도록 한다.
+     * 2. Dealer와 Gamer 모두 카드를 받을지 말지를 결정한 신호를 외부로 보내는 것
+     */
+    private boolean receiveCardAllPlayers(Scanner sc, CardDeck cardDeck, List<Player> players) {
+        boolean isAllPlayerTurnOff = true;
+
+        for(Player player : players) {
+            if(isReceiveCard(sc)) {
+                Card card = cardDeck.draw();
+                player.receiveCard(card);
+                isAllPlayerTurnOff = false;
+            } else {
+                isAllPlayerTurnOff = true;
+            }
+        }
+
+        return isAllPlayerTurnOff;
+    }
+
+    /**
+     * 카드를 추가적으로 받을지 말지, 입력을 받는 책임을 담당한다.
+     */
+    private boolean isReceiveCard(Scanner sc) {
+        System.out.println("카드를 뽑으시겠습니까? 종료를 원하시면 0을 입력하세요");
+        return !sc.nextLine().equals(STOP_RECEIVE_CARD);
     }
 
     /**
@@ -106,15 +109,14 @@ public class RealGame {
      *    - 초반 카드 뽑기 횟수가 2->3으로 늘어날 경우 A메소드의 2도 3으로 변경해야 할까? 변경하는 것은 확실한가?
      *    - 특히나, 0,1,10 등 빈번하게 사용되는 숫자를 전부 매직넘버로 처리할 경우 히스토리를 알지 못하면 변겨이 치명
      *      적인 버그를 발생시킬 수 있다.
+     *
+     * 수정) Player라는 추상화를 통해 같은 코드를 중복해서 작성하지 않고, Dealer와 Gamer를 모두 처리할 수 있도록
+     *     리팩토링을 진행하였습니다.
      */
-    private void initPhase(CardDeck cardDeck, Gamer gamer, Dealer dealer) {
+    private void initPhase(CardDeck cardDeck, List<Player> players) {
         System.out.println("처음 2장의 카드를 각자 뽑겠습니다.");
         for(int i = 0; i < INITIAL_CARD_COUNT; i++) {
-            Card cardForGamer = cardDeck.draw();
-            gamer.receiveCard(cardForGamer);
-
-            Card cardForDealer = cardDeck.draw();
-            dealer.receiveCard(cardForDealer);
+            players.forEach(player -> player.receiveCard(cardDeck.draw()));
         }
     }
 }

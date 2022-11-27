@@ -5,7 +5,7 @@ package oop.blackjack.domain;
  */
 public class Card {
 
-    private String pattern; // 스페이드, 하트, 다이아몬드, 클로버
+    private Pattern pattern; // 스페이드, 하트, 다이아몬드, 클로버
     private String denomination; // A, 2~10, K,Q,J
     private int point;
 
@@ -20,7 +20,7 @@ public class Card {
      *    - Card에 기본 생성자가 있으면 끗수와 무늬가 없는 Card가 생성 될 수 있다.
      *    - 하지만 이렇게 생성자를 통해서 객체를 생성하도록 하면, 끗수와 무늬가 없는 Card는 생성 할 수 없다.
      */
-    public Card(String pattern, String denomination, int point) {
+    public Card(Pattern pattern, String denomination, int point) {
         this.pattern = pattern;
         this.denomination = denomination;
         this.point = point;
@@ -30,7 +30,7 @@ public class Card {
      * 이전의 코드에서는 CardDeck에서 Card를 생성하면서, 끗수를 결정하고 패턴을 결정했지만
      * 해당 책임을 이젠 Card가 직접 처리하도록 수정
      */
-    public Card(String pattern, int i) {
+    public Card(Pattern pattern, int i) {
         this.pattern = pattern;
         this.denomination = numberToDenomination(i);
         this.point = numberToPoint(this.denomination);
@@ -41,7 +41,7 @@ public class Card {
      * 객체의 캡슐화를 보장하기 위해서, 기본적으로 Getter, Setter를 private 으로 선언한다.
      * 필요한 경우 public 으로 노출 시킨다.
      */
-    private String getPattern() {
+    public Pattern getPattern() {
         return pattern;
     }
 
@@ -49,7 +49,7 @@ public class Card {
         return denomination;
     }
 
-    private void setPattern(String pattern) {
+    private void setPattern(Pattern pattern) {
         this.pattern = pattern;
     }
 
@@ -101,6 +101,22 @@ public class Card {
             return "K";
         } else {
             return String.valueOf(number);
+        }
+    }
+
+    /**
+     * Pattern enum의 경우 Card외에는 사용되는 곳이 없기에 inner type으로 (즉, Card 내부에 선언) 하였습니다
+     */
+    public enum Pattern {
+        SPADE("spade"),
+        HEART("heart"),
+        DIAMOND("diamond"),
+        CLUB("club");
+
+        private String value;
+
+        Pattern(String value) {
+            this.value = value;
         }
     }
 

@@ -13,8 +13,6 @@ import java.util.List;
 public class CardDeck {
 
     private List<Card> cards;
-
-    private static final String[] PATTERNS = {"spade","heart", "diamond", "clover"};
     private static final int CARD_COUNT = 13; // A, 2~10, J, Q, K
 
 
@@ -38,7 +36,7 @@ public class CardDeck {
      */
     private List<Card> generateCards() {
         List<Card> cards = new LinkedList<>();
-        for (String pattern : PATTERNS) {
+        for (Card.Pattern pattern : Card.Pattern.values()) {
             for (int i = 1; i <= CARD_COUNT; i++) {
                 Card card = new Card(pattern, i);
                 cards.add(card);
@@ -87,6 +85,10 @@ public class CardDeck {
         }
 
         return sb.toString();
+    }
+
+    public List<Card> getCards(){
+        return this.cards;
     }
 
 }

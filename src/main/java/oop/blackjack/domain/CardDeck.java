@@ -33,13 +33,13 @@ public class CardDeck {
      * 이렇게 분리하고 나면, 각 메서드는 하나의 역할에만 충실할 수 있게 되었다.
      *
      * 수정) 삭제되는 성능을 고려해서 ArrayList -> LinkedList로 변경
+     * 수정) 끗수와 점수에 대해서는 Enum을 통해서 그 범위를 제한하게 하여, 더욱 안전하게 만들었다. 간결해졌다.
      */
     private List<Card> generateCards() {
         List<Card> cards = new LinkedList<>();
         for (Card.Pattern pattern : Card.Pattern.values()) {
-            for (int i = 1; i <= CARD_COUNT; i++) {
-                Card card = new Card(pattern, i);
-                cards.add(card);
+            for (Card.Denomination denomination : Card.Denomination.values()) {
+                cards.add(new Card(pattern, denomination));
             }
         }
         return cards;

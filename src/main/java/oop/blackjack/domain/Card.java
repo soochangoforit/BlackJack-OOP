@@ -6,7 +6,7 @@ package oop.blackjack.domain;
 public class Card {
 
     private Pattern pattern; // 스페이드, 하트, 다이아몬드, 클로버
-    private String denomination; // A, 2~10, K,Q,J
+    private Denomination denomination; // A, 2~10, K,Q,J
     private int point;
 
     /**
@@ -20,7 +20,7 @@ public class Card {
      *    - Card에 기본 생성자가 있으면 끗수와 무늬가 없는 Card가 생성 될 수 있다.
      *    - 하지만 이렇게 생성자를 통해서 객체를 생성하도록 하면, 끗수와 무늬가 없는 Card는 생성 할 수 없다.
      */
-    public Card(Pattern pattern, String denomination, int point) {
+    public Card(Pattern pattern, Denomination denomination, int point) {
         this.pattern = pattern;
         this.denomination = denomination;
         this.point = point;
@@ -30,10 +30,9 @@ public class Card {
      * 이전의 코드에서는 CardDeck에서 Card를 생성하면서, 끗수를 결정하고 패턴을 결정했지만
      * 해당 책임을 이젠 Card가 직접 처리하도록 수정
      */
-    public Card(Pattern pattern, int i) {
+    public Card(Pattern pattern, Denomination denomination) {
         this.pattern = pattern;
-        this.denomination = numberToDenomination(i);
-        this.point = numberToPoint(this.denomination);
+        this.denomination = denomination;
     }
 
 
@@ -45,7 +44,7 @@ public class Card {
         return pattern;
     }
 
-    private String getDenomination() {
+    public Denomination getDenomination() {
         return denomination;
     }
 
@@ -53,7 +52,7 @@ public class Card {
         this.pattern = pattern;
     }
 
-    private void setDenomination(String denomination) {
+    private void setDenomination(Denomination denomination) {
         this.denomination = denomination;
     }
 
@@ -117,6 +116,40 @@ public class Card {
 
         Pattern(String value) {
             this.value = value;
+        }
+    }
+
+    /**
+     * 카드의 끗수 및 포인트를 Enum으로 변환
+     */
+    public enum Denomination {
+        ACE("A", 1),
+        TWO("2", 2),
+        THREE("3", 3),
+        FOUR("4", 4),
+        FIVE("5", 5),
+        SIX("6", 6),
+        SEVEN("7", 7),
+        EIGHT("8", 8),
+        NINE("9", 9),
+        TEN("10", 10),
+        JACK("J", 10),
+        QUEEN("Q", 10),
+        KING("K", 10);
+
+        private String mark;
+        private int point;
+
+        Denomination() {
+        }
+
+        Denomination(String mark, int point) {
+            this.mark = mark;
+            this.point = point;
+        }
+
+        public int getPoint() {
+            return this.point;
         }
     }
 

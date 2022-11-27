@@ -35,58 +35,81 @@ public class RealGame {
         Rule rule = new Rule();
 
         List<Player> players = Arrays.asList(gamer, dealer);
-
-        this.initPhase(cardDeck, players);
-        this.playingPhase(sc, cardDeck, players);
+        List<Player> initAfterPlayers = initPhase(cardDeck, players);
+        List<Player> playingAfterPlayers = playingPhase(sc, cardDeck, initAfterPlayers);
 
 
     }
 
 
     /**
-     * Dealer와 Gamer 모두 자유롭게 카드를 받는다.
-     * Dealer와 Gamer, 번갈아 가면서 카드를 받는다.
-     * 2명이 모두 카드를 다 받았다고 판단되면 종료하는 책임을 담당한다.
+     * 한 턴씩 진행함으로써, Dealer와 Gamer 모두 만족할때까지 카드를 뽑도록 하는 1개의 책임을 갖고 있다.
+     * 하나의 메서드는 하나의 책임만 갖도록 한다.
+     *
+     * isAllPlayerTurnOff()는 Dealer와 Gamer가 모두 카드를 더 이상 받지 않아도 괜찮은지 확인하는 책임을
+     * 메시지를 통해서 위임한다.
      */
-    private void playingPhase(Scanner sc, CardDeck cardDeck, List<Player> players) {
-        while(true) {
-            boolean isAllPlayerTurnOff = receiveCardAllPlayers(sc, cardDeck, players);
+    private List<Player> playingPhase(Scanner sc, CardDeck cardDeck, List<Player> players) {
+        List<Player> cardReceivedPlayers;
 
-            if(isAllPlayerTurnOff) {
+        while(true) {
+            cardReceivedPlayers = receiveCardAllPlayers(sc, cardDeck, players);
+
+            if(isAllPlayerTurnOff(cardReceivedPlayers)) {
                 break;
             }
         }
+
+        return cardReceivedPlayers;
     }
 
     /**
-     * 매 턴마다, Dealer와 Gamer 모두 카드를 받을지 말지를 알여주는 책임을 담당한다.
+     * 한번의 턴에서 Dealer와 Gamer 모두 카드를 뽑을 수 기회를 갖도록 하는 1개의 책임을 갖고 있다.
+     * 하나의 메서드는 하나의 책임만 갖도록 한다.
      *
-     * 문제점은 receiveCardAllPlayers 메서드가 2가지 일을 하고 있다는 것이다.
-     * 1. Dealer와 Gamer 모두 카드를 받도록 한다.
-     * 2. Dealer와 Gamer 모두 카드를 받을지 말지를 결정한 신호를 외부로 보내는 것
+     * 파라미터로 들어온 players는 "Call By Reference"이기 때문에,
+     * receiveCardAllPlayers() 메서드 내에서 players의 상태가 변경되면,
+     * playingPhase() 메서드 내에서도 players의 상태가 변경된다.
+     * 따라서 굳이, return 하지 않아도 괜찮다.
+     *
+     * 하지만 return 하는 이유는 그 목적을 명확히 하기 위해서이다.
+     * "receiveCardAllPlayers는 CardDeck과 List를 인자로 받아 특별한 과정을 통해 변경된 List를 준다."
+     * 이것이 receiveCardAllPlayers의 목적이다.
+     * 만약 void로 할 경우 List가 변경은 될지언정, 최종적으로 무얼 위함인지 코드상에서 확인하기 어렵고 목적이 모호해지게 됩니다
+     * 좋은 메소드란 결국 어떤 인자가 필요하고, 그 인자를 통해 어떤 결과를 뱉어내는지 명확한 것이라고 생각합니다
      */
-    private boolean receiveCardAllPlayers(Scanner sc, CardDeck cardDeck, List<Player> players) {
-        boolean isAllPlayerTurnOff = true;
-
+    private List<Player> receiveCardAllPlayers(Scanner sc, CardDeck cardDeck, List<Player> players) {
         for(Player player : players) {
-            if(isReceiveCard(sc)) {
+            if(stillReceiveCard(sc)){
                 Card card = cardDeck.draw();
                 player.receiveCard(card);
-                isAllPlayerTurnOff = false;
-            } else {
-                isAllPlayerTurnOff = true;
+                player.turnOn();
+            }else {
+                player.turnOff();
             }
         }
 
-        return isAllPlayerTurnOff;
+        return players;
     }
 
     /**
      * 카드를 추가적으로 받을지 말지, 입력을 받는 책임을 담당한다.
      */
-    private boolean isReceiveCard(Scanner sc) {
+    private boolean stillReceiveCard(Scanner sc) {
         System.out.println("카드를 뽑으시겠습니까? 종료를 원하시면 0을 입력하세요");
         return !sc.nextLine().equals(STOP_RECEIVE_CARD);
+    }
+
+    /**
+     * 모든 Player가 카드를 더 이상 받지 않아도 되는지 알려주는 책임을 담당한다.
+     */
+    private boolean isAllPlayerTurnOff(List<Player> players) {
+        for(Player player : players) {
+            if(player.isTurn()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -113,10 +136,12 @@ public class RealGame {
      * 수정) Player라는 추상화를 통해 같은 코드를 중복해서 작성하지 않고, Dealer와 Gamer를 모두 처리할 수 있도록
      *     리팩토링을 진행하였습니다.
      */
-    private void initPhase(CardDeck cardDeck, List<Player> players) {
+    private List<Player> initPhase(CardDeck cardDeck, List<Player> players) {
         System.out.println("처음 2장의 카드를 각자 뽑겠습니다.");
         for(int i = 0; i < INITIAL_CARD_COUNT; i++) {
             players.forEach(player -> player.receiveCard(cardDeck.draw()));
         }
+
+        return players;
     }
 }

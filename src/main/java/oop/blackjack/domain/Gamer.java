@@ -13,6 +13,7 @@ import java.util.List;
 public class Gamer implements Player {
 
     private List<Card> cards;
+    private boolean turn;
 
     /**
      * 생성자를 통해서 cards를 담을 구현체를 추가
@@ -37,6 +38,21 @@ public class Gamer implements Player {
     @Override
     public List<Card> openCards() {
         return this.cards;
+    }
+
+    @Override
+    public void turnOn() {
+        this.turn = true;
+    }
+
+    @Override
+    public void turnOff() {
+        this.turn = false;
+    }
+
+    @Override
+    public boolean isTurn() {
+        return this.turn;
     }
 
     /**

@@ -17,6 +17,7 @@ import java.util.List;
 public class Dealer implements Player {
 
     private List<Card> cards; // 딜러가 가지고 있는 카드 목록 (카드를 소유한다)
+    private boolean turn;
 
     private final int CAN_RECEIVE_POINT = 16;
 
@@ -72,6 +73,21 @@ public class Dealer implements Player {
     @Override
     public List<Card> openCards() {
         return this.cards;
+    }
+
+    @Override
+    public void turnOn() {
+        this.turn = true;
+    }
+
+    @Override
+    public void turnOff() {
+        this.turn = false;
+    }
+
+    @Override
+    public boolean isTurn() {
+        return this.turn;
     }
 
 }

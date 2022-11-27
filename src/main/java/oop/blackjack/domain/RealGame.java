@@ -38,6 +38,9 @@ public class RealGame {
         List<Player> initAfterPlayers = initPhase(cardDeck, players);
         List<Player> playingAfterPlayers = playingPhase(sc, cardDeck, initAfterPlayers);
 
+        Player winner = rule.getWinner(playingAfterPlayers);
+        System.out.println("승자는 " + winner.getName() + "입니다.");
+
 
     }
 
@@ -80,6 +83,8 @@ public class RealGame {
      */
     private List<Player> receiveCardAllPlayers(Scanner sc, CardDeck cardDeck, List<Player> players) {
         for(Player player : players) {
+            System.out.println(player.getName() + "님 차례입니다.");
+
             if(stillReceiveCard(sc)){
                 Card card = cardDeck.draw();
                 player.receiveCard(card);

@@ -55,6 +55,11 @@ public class Gamer implements Player {
         return this.turn;
     }
 
+    @Override
+    public String getName() {
+        return "Gamer";
+    }
+
     /**
      * Gamer의 경우, 사용자가 현재 카드들 총 Point를 보며 카드를 더 뽑을지 말지 결정하게 된다.
      * 이를 위해서는 Gamer는 현재 카드들의 숫자의 합을 확인할 수 있어야 한다.

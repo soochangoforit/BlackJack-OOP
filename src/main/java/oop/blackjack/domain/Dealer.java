@@ -90,4 +90,9 @@ public class Dealer implements Player {
         return this.turn;
     }
 
+    @Override
+    public String getName() {
+        return "Dealer";
+    }
+
 }

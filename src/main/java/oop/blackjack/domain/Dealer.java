@@ -27,7 +27,7 @@ public class Dealer {
     /**
      * 카드를 뽑는다 (받는다).
      */
-    private void receiveCard(Card card) {
+    public void receiveCard(Card card) {
         if(this.isReceiveCard()) {
             this.cards.add(card);
             this.showCards();
@@ -57,7 +57,7 @@ public class Dealer {
 
     public void showCards(){
         StringBuilder sb = new StringBuilder();
-        sb.append("현재 보유 카드 목록 \n");
+        sb.append("딜러 현재 보유 카드 목록 \n");
 
         for(Card card : cards){
             sb.append(card.toString());

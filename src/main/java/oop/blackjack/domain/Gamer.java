@@ -44,7 +44,7 @@ public class Gamer {
      */
     private void showCards() {
         StringBuilder sb = new StringBuilder();
-        sb.append("현재 보유 카드 목록 \n");
+        sb.append("게이머 현재 보유 카드 목록 \n");
 
         for (Card card : cards) {
             sb.append(card.toString());

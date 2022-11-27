@@ -31,8 +31,8 @@ public class RealGame {
         // 규칙 생성
         Rule rule = new Rule();
 
-        this.initPhase(cardDeck, gamer);
-        this.playingPhase(sc, cardDeck, gamer);
+        this.initPhase(cardDeck, gamer, dealer);
+        this.playingPhase(sc, cardDeck, gamer, dealer);
 
 
     }
@@ -54,18 +54,35 @@ public class RealGame {
      * 만일 각 객체의 책임이 모호하게 구현이 되어 있다면, 차후 변경이 있을 경우 어디까지 수정을 해야하는지 알 수 없는 상황이
      * 올 수도 있다. 그러므로 다른 객체에게 요청을 하는 일은 최대한 해당 객체를 믿고 맡기는 것이 좋다.
      */
-    private void playingPhase(Scanner sc, CardDeck cardDeck, Gamer gamer) {
-        String gamerInput;
+    private void playingPhase(Scanner sc, CardDeck cardDeck, Gamer gamer, Dealer dealer) {
+        String gamerInput, dealerInput;
+        boolean isGamerTurn = false,
+                isDealerTurn = false;
+
         while(true) {
-            System.out.println("카드를 뽑겠습니까?? 종료를 원하시면 0을 입력하세요");
+            System.out.println("게이머님 카드를 뽑겠습니까?? 종료를 원하시면 0을 입력하세요");
             gamerInput = sc.nextLine();
 
             if(gamerInput.equals("0")) {
-                break;
+                isGamerTurn = true;
+            }else{
+                Card card = cardDeck.draw();
+                gamer.receiveCard(card);
             }
 
-            Card card = cardDeck.draw();
-            gamer.receiveCard(card);
+            System.out.println("딜러님 카드를 뽑겠습니까?? 종료를 원하시면 0을 입력하세요");
+            dealerInput = sc.nextLine();
+
+            if(dealerInput.equals("0")) {
+                isDealerTurn = true;
+            }else{
+                Card card = cardDeck.draw();
+                dealer.receiveCard(card);
+            }
+
+            if(isGamerTurn && isDealerTurn) {
+                break;
+            }
         }
     }
 
@@ -90,11 +107,14 @@ public class RealGame {
      *    - 특히나, 0,1,10 등 빈번하게 사용되는 숫자를 전부 매직넘버로 처리할 경우 히스토리를 알지 못하면 변겨이 치명
      *      적인 버그를 발생시킬 수 있다.
      */
-    private void initPhase(CardDeck cardDeck, Gamer gamer) {
+    private void initPhase(CardDeck cardDeck, Gamer gamer, Dealer dealer) {
         System.out.println("처음 2장의 카드를 각자 뽑겠습니다.");
         for(int i = 0; i < INITIAL_CARD_COUNT; i++) {
-            Card card = cardDeck.draw();
-            gamer.receiveCard(card);
+            Card cardForGamer = cardDeck.draw();
+            gamer.receiveCard(cardForGamer);
+
+            Card cardForDealer = cardDeck.draw();
+            dealer.receiveCard(cardForDealer);
         }
     }
 }

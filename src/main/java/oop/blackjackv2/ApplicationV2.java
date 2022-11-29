@@ -1,4 +1,4 @@
-package oop.blackjack.v2;
+package oop.blackjackv2;
 
 public class ApplicationV2 {
 }

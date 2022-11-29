@@ -95,5 +95,4 @@ public class Card {
             return mark;
         }
     }
-
 }

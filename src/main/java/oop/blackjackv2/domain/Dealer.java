@@ -3,7 +3,7 @@ package oop.blackjackv2.domain;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Dealer {
+public class Dealer implements Person {
 
     private CardDeck cardDeck;
     private List<Card> myCards = new LinkedList<>();
@@ -12,6 +12,7 @@ public class Dealer {
         this.cardDeck = cardDeck;
     }
 
+    @Override
     public void initDraw() {
         addToMine(this.cardDeck.draw());
     }

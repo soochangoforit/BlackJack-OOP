@@ -1,7 +1,7 @@
 package oop.blackjackv2.domain;
 
-import java.util.LinkedList;
-import java.util.List;
+
+import java.util.Stack;
 
 public class Card {
 
@@ -26,7 +26,7 @@ public class Card {
 
     public Card(){}
 
-    public void addCards(List<Card> cards) {
+    public void addCards(Stack<Card> cards) {
         for (int i = 0; i < PATTERNS_SIZE * DENOMINATIONS_SIZE ; i++) {
             cards.add(create(i));
         }

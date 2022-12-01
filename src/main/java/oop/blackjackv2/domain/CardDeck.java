@@ -1,7 +1,7 @@
 package oop.blackjackv2.domain;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collections;
+import java.util.Stack;
 
 public class CardDeck {
 
@@ -11,9 +11,10 @@ public class CardDeck {
         this.card = card;
     }
 
-    public List<Card> createCards() {
-        List<Card> cards = new LinkedList<>();
+    public Stack<Card> createCards() {
+        Stack<Card> cards = new Stack<>();
         card.addCards(cards);
+        Collections.shuffle(cards);
         return cards;
     }
 }

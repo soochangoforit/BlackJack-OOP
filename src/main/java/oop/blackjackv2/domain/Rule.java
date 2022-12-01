@@ -1,14 +1,14 @@
 package oop.blackjackv2.domain;
 
+import java.util.List;
+
 public class Rule {
 
-    private Gamer gamer;
-    private Dealer dealer;
+    private final List<Person> persons;
     private final int initCardsCount = 2;
 
-    public Rule(Gamer gamer, Dealer dealer) {
-        this.gamer = gamer;
-        this.dealer = dealer;
+    public Rule(Person ... persons) {
+        this.persons = List.of(persons);
     }
 
     /**
@@ -17,8 +17,7 @@ public class Rule {
      */
     public void initialDraw(){
         for (int i = 0; i < initCardsCount; i++) {
-            gamer.initDraw();
-            dealer.initDraw();
+            persons.forEach(Person::initDraw);
         }
     }
 

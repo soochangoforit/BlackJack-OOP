@@ -26,13 +26,7 @@ public class Card {
 
     public Card(){}
 
-    public List<Card> getCards() {
-        List<Card> cards = new LinkedList<>();
-        addCards(cards);
-        return cards;
-    }
-
-    private void addCards(List<Card> cards) {
+    public void addCards(List<Card> cards) {
         for (int i = 0; i < PATTERNS_SIZE * DENOMINATIONS_SIZE ; i++) {
             cards.add(create(i));
         }

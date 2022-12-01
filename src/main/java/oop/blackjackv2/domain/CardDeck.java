@@ -1,5 +1,6 @@
 package oop.blackjackv2.domain;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class CardDeck {
@@ -11,6 +12,8 @@ public class CardDeck {
     }
 
     public List<Card> createCards() {
-        return card.getCards();
+        List<Card> cards = new LinkedList<>();
+        card.addCards(cards);
+        return cards;
     }
 }

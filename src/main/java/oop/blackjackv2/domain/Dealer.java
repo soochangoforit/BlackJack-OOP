@@ -21,11 +21,15 @@ public class Dealer implements Person {
 
     @Override
     public void draw() {
-        if (getPoints() <= POINT_LIMIT) {
+        if (canDraw()) {
             addToMine(this.cardDeck.draw());
         } else {
             System.out.println("딜러는 17점 이상이므로 카드를 뽑지 않습니다.");
         }
+    }
+
+    private boolean canDraw() {
+        return getPoints() <= POINT_LIMIT;
     }
 
     private int getPoints() {

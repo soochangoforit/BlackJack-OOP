@@ -27,16 +27,12 @@ public class Gamer implements Person {
         }
     }
 
-    @Override
-    public List<Card> openCards() {
-        return myCards;
-    }
-
     private boolean isBust() {
         return getPoints() > 21;
     }
 
-    private int getPoints() {
+    @Override
+    public int getPoints() {
         return myCards.stream()
                 .mapToInt(Card::getPoint)
                 .sum();

@@ -8,5 +8,5 @@ public interface Person {
 
     void draw();
 
-    List<Card> openCards();
+    int getPoints();
 }

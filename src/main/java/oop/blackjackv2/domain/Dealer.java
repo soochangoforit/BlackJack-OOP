@@ -8,6 +8,8 @@ public class Dealer implements Person {
     private CardDeck cardDeck;
     private List<Card> myCards = new LinkedList<>();
 
+    private final int POINT_LIMIT = 16;
+
     public Dealer(CardDeck cardDeck){
         this.cardDeck = cardDeck;
     }
@@ -15,6 +17,21 @@ public class Dealer implements Person {
     @Override
     public void initDraw() {
         addToMine(this.cardDeck.draw());
+    }
+
+    @Override
+    public void draw() {
+        if (getPoints() <= POINT_LIMIT) {
+            addToMine(this.cardDeck.draw());
+        } else {
+            System.out.println("딜러는 17점 이상이므로 카드를 뽑지 않습니다.");
+        }
+    }
+
+    private int getPoints() {
+        return myCards.stream()
+                .mapToInt(Card::getPoint)
+                .sum();
     }
 
     private void addToMine(Card card) {

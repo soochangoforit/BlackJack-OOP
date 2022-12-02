@@ -18,6 +18,11 @@ public class Gamer implements Person {
         addToMine(this.cardDeck.draw());
     }
 
+    @Override
+    public void draw() {
+        addToMine(this.cardDeck.draw());
+    }
+
     private void addToMine(Card card) {
         this.myCards.add(card);
     }

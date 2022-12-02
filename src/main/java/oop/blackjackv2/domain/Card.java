@@ -44,6 +44,10 @@ public class Card {
         return Pattern.values()[idx % PATTERNS_SIZE];
     }
 
+    public int getPoint() {
+        return denomination.getPoint();
+    }
+
 
     private enum Pattern {
         SPADE("spade"),
@@ -87,6 +91,10 @@ public class Card {
 
         public String getMark() {
             return mark;
+        }
+
+        public int getPoint() {
+            return point;
         }
     }
 }

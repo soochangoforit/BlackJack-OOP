@@ -48,6 +48,11 @@ public class Card {
         return denomination.getPoint();
     }
 
+    @Override
+    public String toString() {
+        return "\n{  문양  " + getPatternValue() + ",  끗수  " +getDenominationMark() + " }";
+    }
+
 
     private enum Pattern {
         SPADE("spade"),

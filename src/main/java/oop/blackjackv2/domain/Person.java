@@ -9,4 +9,8 @@ public interface Person {
     void draw();
 
     int getPoints();
+
+    String getName();
+
+    String showCards();
 }

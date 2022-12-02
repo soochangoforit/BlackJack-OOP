@@ -38,6 +38,20 @@ public class Gamer implements Person {
                 .sum();
     }
 
+    @Override
+    public String getName() {
+        return "게이머";
+    }
+
+    @Override
+    public String showCards() {
+        StringBuilder sb = new StringBuilder();
+        for (Card card : myCards) {
+            sb.append(card.toString());
+        }
+        return sb.toString();
+    }
+
     private void addToMine(Card card) {
         this.myCards.add(card);
     }

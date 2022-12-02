@@ -28,6 +28,11 @@ public class Dealer implements Person {
         }
     }
 
+    @Override
+    public List<Card> openCards() {
+        return myCards;
+    }
+
     private boolean canDraw() {
         return getPoints() <= POINT_LIMIT;
     }

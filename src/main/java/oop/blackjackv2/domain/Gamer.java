@@ -27,6 +27,11 @@ public class Gamer implements Person {
         }
     }
 
+    @Override
+    public List<Card> openCards() {
+        return myCards;
+    }
+
     private boolean isBust() {
         return getPoints() > 21;
     }

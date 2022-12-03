@@ -27,4 +27,8 @@ public class View {
     public void show(String message) {
         System.out.println(message);
     }
+
+    public void showWinner(Person winner) {
+        System.out.println(winner.getName() + " 님이 이겼습니다.");
+    }
 }

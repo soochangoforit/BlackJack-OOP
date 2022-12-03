@@ -5,7 +5,9 @@ import java.util.List;
 public class Rule {
 
     private final List<Person> persons;
-    private final int initCardsCount = 2;
+    private static final int initCardsCount = 2;
+
+    private static final int BLACKJACK = 21;
 
     public Rule(Person ... persons) {
         this.persons = List.of(persons);
@@ -21,4 +23,20 @@ public class Rule {
         }
     }
 
+    public Person findWinner() {
+       return persons.stream().min((p1, p2) -> {
+            int p1PointsGap = getGap(p1);
+            int p2PointsGap = getGap(p2);
+
+            return Integer.compare(p1PointsGap, p2PointsGap);
+        }).orElseThrow(() -> new RuntimeException("승자가 없습니다."));
+    }
+
+    private static int getGap(Person p) {
+        return Math.abs(BLACKJACK - p.getPoints());
+    }
+
+    public boolean isContinue(String inputYesOrNo) {
+        return inputYesOrNo.equals("y");
+    }
 }

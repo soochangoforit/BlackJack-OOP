@@ -36,7 +36,7 @@ public class Dealer implements Person {
         addToMine(this.cardDeck.draw());
     }
 
-    public boolean isMaxLimit() {
+    public boolean isOverMinLimit() {
         return getPoints() > POINT_SIXTEEN_LIMIT;
     }
 
@@ -69,7 +69,21 @@ public class Dealer implements Person {
         return myCards;
     }
 
-    public boolean isUnderLimit() {
-        return getPoints() <= POINT_SIXTEEN_LIMIT;
+    public boolean canDraw(View view) {
+        if (isOverMinLimit()) {
+            view.show("딜러는 17점 이상이기 때문에, 더 이상 카드를 뽑을 수 없습니다.");
+            return false;
+        }
+        draw();
+        return true;
+    }
+
+    public boolean canStop(View view) {
+        if (isOverMinLimit()) {
+            return true;
+        }
+        view.show("딜러는 16점 이하이기 때문에, 카드를 더 뽑아야 합니다.");
+        draw();
+        return false;
     }
 }

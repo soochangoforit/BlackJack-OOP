@@ -35,41 +35,9 @@ public class RealGame {
 
     private boolean DealerTurn(Dealer dealer, Rule rule, View view) {
         if (rule.isContinue(view.getInputYesOrNo(dealer))){
-            return draw(dealer, view);
+            return dealer.canDraw(view);
         }
-        return !checkCanStop(dealer, view);
-    }
-
-    private boolean checkCanStop(Dealer dealer, View view) {
-        if (isUnderMinLimit(dealer, view)) {
-            dealer.draw();
-            return false;
-        }
-        return true;
-    }
-
-    private boolean draw(Dealer dealer, View view) {
-        if (isOverMaxLimit(dealer, view)) {
-            return false;
-        }
-        dealer.draw();
-        return true;
-    }
-
-    private boolean isUnderMinLimit(Dealer dealer, View view) {
-        if (dealer.isUnderLimit()){
-            view.show("딜러의 점수가 16점 이하이기 때문에, 카드를 한 장 더 뽑습니다.");
-            return true;
-        }
-        return false;
-    }
-
-    private boolean isOverMaxLimit(Dealer dealer,View view) {
-        if (dealer.isMaxLimit()) {
-            view.show("딜러는 17점 이상이기 때문에, 더 이상 카드를 뽑을 수 없습니다.");
-            return true;
-        }
-        return false;
+        return !dealer.canStop(view);
     }
 
     private boolean GamerTurn(Gamer gamer, Rule rule, View view) {

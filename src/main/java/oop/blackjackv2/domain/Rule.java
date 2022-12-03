@@ -36,4 +36,7 @@ public class Rule {
         return Math.abs(BLACKJACK - p.getPoints());
     }
 
+    public boolean isContinue(String inputYesOrNo) {
+        return inputYesOrNo.equals("y");
+    }
 }

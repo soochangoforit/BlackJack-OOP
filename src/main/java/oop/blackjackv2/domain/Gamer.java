@@ -9,8 +9,11 @@ public class Gamer implements Person {
 
     private List<Card> myCards = new LinkedList<>();
 
-    public Gamer(CardDeck cardDeck){
+    private String name;
+
+    public Gamer(CardDeck cardDeck, String name){
         this.cardDeck = cardDeck;
+        this.name = name;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class Gamer implements Person {
 
     @Override
     public String getName() {
-        return "게이머";
+        return name;
     }
 
     @Override

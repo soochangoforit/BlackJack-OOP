@@ -42,8 +42,7 @@ public class RealGame {
 
     private boolean GamerTurn(Gamer gamer, Rule rule, View view) {
         if (rule.isContinue(view.getInputYesOrNo(gamer))){
-            gamer.draw();
-            return true;
+            return gamer.canDraw(view);
         }
         return false;
     }

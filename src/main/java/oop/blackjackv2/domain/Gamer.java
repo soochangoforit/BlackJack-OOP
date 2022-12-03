@@ -23,11 +23,7 @@ public class Gamer implements Person {
 
     @Override
     public void draw() {
-        if (isBust()) {
-            System.out.println("버스트!! 점수가 21점 초과이기 때문에, 더 이상 카드를 더 뽑을 수 없습니다.");
-        } else {
-            addToMine(this.cardDeck.draw());
-        }
+        addToMine(this.cardDeck.draw());
     }
 
     private boolean isBust() {
@@ -61,5 +57,14 @@ public class Gamer implements Person {
 
     public List<Card> getMyCards() {
         return myCards;
+    }
+
+    public boolean canDraw(View view) {
+        if (isBust()) {
+            view.show(name + " 님은 버스트입니다. 21점을 초과 했기 때문에, 더 이상 뽑을 수 없습니다.");
+            return false;
+        }
+        draw();
+        return true;
     }
 }

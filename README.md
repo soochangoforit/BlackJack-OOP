@@ -1,6 +1,5 @@
 # BLACK JACK - OOP
 
----
 
 ### 목차
 
@@ -16,7 +15,7 @@
 <br>
  
 <aside>
-✅ **반드시 기억!!**
+✅ 반드시 기억!!
 
 ---
 
@@ -165,7 +164,4 @@
  
 
 ### 진행 하면서 느꼈던 점 (회고)
-[노션 링크](https://misty-birthday-b8e.notion.site/BLACK-JACK-OOP-a83472dd11da4e3da127a846c189237c)
-
-        
-        </aside>
+[노션 링크](https://misty-birthday-b8e.notion.site/BLACK-JACK-OOP-a83472dd11da4e3da127a846c189237c#c712cda9a70542b89768e5a824d6f368)
